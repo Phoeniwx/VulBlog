@@ -8,7 +8,7 @@ V部落是一个多用户博客管理平台，采用Vue+SpringBoot开发。
 1.进入blogserver项目，mvn编译
 
 ```
-mvn clean && mvn compile
+mvn clean && mvn package -DskipTests
 ```  
 
 2.启动tomcat
