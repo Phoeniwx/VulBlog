@@ -1,3 +1,11 @@
+<style>
+.el-upload{
+  height: 23px;
+}
+.el-button{
+  height: 23px;
+}
+</style>
 <template>
   <div v-loading="loading">
     <div style="margin-top: 10px;display: flex;justify-content: center">
@@ -12,11 +20,20 @@
     <div style="display: flex;justify-content: space-around;flex-wrap: wrap">
       <el-card style="width:330px;margin-top: 10px;" v-for="(user,index) in users" :key="index"
                v-loading="cardloading[index]">
-        <div slot="header" style="text-align: left">
+        <div slot="header" style="text-align: left;">
           <span>{{user.nickname}}</span>
           <el-button style="float: right; padding: 3px 0;color: #ff0509" type="text" icon="el-icon-delete"
                      @click="deleteUser(user.id)">删除
           </el-button>
+          <el-upload style="float: right; height: 23px;"
+            action="/admin/user/upload" accept=".jpg, .jpeg, .png"
+            :data="{id: user.id}"
+            :limit="3">
+            <el-button style="float: right; padding: 0 0; height: 23px;" type="text" icon="el-icon-upload2">上传头像</el-button>
+          </el-upload>
+<!--          <el-button style="float: right; padding: 3px 0;" type="text" icon="el-icon-upload2"-->
+<!--                     @click="uploadPicForUser(user.id)">上传头像-->
+<!--          </el-button>-->
         </div>
         <div>
           <div><img :src="user.userface" :alt="user.nickname" style="width: 70px;height: 70px"></div>
@@ -131,6 +148,7 @@
           this.roles.push(aRoles[i].id);
         }
       },
+      uploadPicForUser(id){},
       deleteUser(id){
         var _this = this;
         this.$confirm('删除该用户, 是否继续?', '提示', {
