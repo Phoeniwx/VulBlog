@@ -107,6 +107,10 @@
       });
     },
     methods: {
+      getDataUrl(path) {
+        const reader = new FileReader();
+
+      },
       saveRoles(id, index){
         var selRoles = this.roles;
         if (this.cpRoles.length == selRoles.length) {

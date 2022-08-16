@@ -23,6 +23,8 @@ public interface UserMapper {
 
     List<Role> getAllRole();
 
+    int updateUserPic(@Param("path") String path, @Param("id") Long id);
+
     int updateUserEnabled(@Param("enabled") Boolean enabled, @Param("uid") Long uid);
 
     int deleteUserById(Long uid);

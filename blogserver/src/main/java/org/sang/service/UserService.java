@@ -2,6 +2,7 @@ package org.sang.service;
 
 import org.sang.bean.Role;
 import org.sang.bean.User;
+import org.sang.bean.UserWithImg;
 import org.sang.config.MyPasswordEncoder;
 import org.sang.mapper.RolesMapper;
 import org.sang.mapper.UserMapper;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.DigestUtils;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -73,10 +75,24 @@ public class UserService implements UserDetailsService {
         return userMapper.updateUserEmail(email, Util.getCurrentUser().getId());
     }
 
+    public int updateUserPic(String path, Long id) {
+        return userMapper.updateUserPic(path, id);
+    }
+
     public List<User> getUserByNickname(String nickname) {
         List<User> list = userMapper.getUserByNickname(nickname);
         return list;
     }
+
+//    public List<UserWithImg> getUserWithImg(String nickname) {
+//        List<User> list = userMapper.getUserByNickname(nickname);
+//        for (User user: list) {
+//            File pic = new File(user.getUserface());
+//            if (! pic.exists()) {
+//                pic = new File("default.jpg");
+//            }
+//        }
+//    }
 
     public List<Role> getAllRole() {
         return userMapper.getAllRole();

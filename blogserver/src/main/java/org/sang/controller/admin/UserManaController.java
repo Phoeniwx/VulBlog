@@ -5,12 +5,14 @@ import org.sang.bean.Role;
 import org.sang.bean.User;
 import org.sang.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.List;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * Created by sang on 2017/12/24.
@@ -61,5 +63,25 @@ public class UserManaController {
         } else {
             return new RespBean("error", "更新失败!");
         }
+    }
+
+    @PostMapping("/user/upload")
+    public RespBean uploadPicForUser(
+            @RequestParam(name = "id") Long id,
+            @RequestParam(name = "file")MultipartFile file) throws Exception{
+        File picPath = new File("pictures");
+        if (! picPath.exists()) {
+            picPath.mkdir();
+        }
+        String fileName = file.getOriginalFilename();
+        String filePath = "pictures/"+fileName;
+        File dest = new File(filePath);
+        Files.copy(file.getInputStream(), dest.toPath(), REPLACE_EXISTING);
+        if (userService.updateUserPic(dest.getAbsolutePath(), id)==1) {
+            return new RespBean("success", "上传成功");
+        } else {
+            return new RespBean("error", "上传失败");
+        }
+
     }
 }
